@@ -1,8 +1,8 @@
-from django.test import TestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 
 # Create your tests here.
-class ViewTest(TestCase):
+class ViewTest(StaticLiveServerTestCase):
     def testIndexTemplate(self):
         response = self.client.get("/")
         self.assertTemplateUsed(response, "home/index.html")

@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
-ONLINE = True
+ONLINE = False
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,14 +75,14 @@ WSGI_APPLICATION = 'linxinzhe_com.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 if ONLINE:
-    name = os.getenv('MYSQL_INSTANCE_NAME')
-    user = os.getenv('MYSQL_USERNAME')
-    password = os.getenv('MYSQL_PASSWORD')
-    host = os.getenv('MYSQL_PORT_3306_TCP_ADDR')
-    port = os.getenv('MYSQL_PORT_3306_TCP_PORT')
+    name = os.getenv('POSTGRESQL_INSTANCE_NAME')
+    user = os.getenv('POSTGRESQL_USERNAME')
+    password = os.getenv('POSTGRESQL_PASSWORD')
+    host = os.getenv('POSTGRESQL_PORT_3306_TCP_ADDR')
+    port = os.getenv('POSTGRESQL_PORT_3306_TCP_PORT')
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': name,
             'USER': user,
             'PASSWORD': password,

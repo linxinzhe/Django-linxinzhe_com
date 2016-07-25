@@ -2,11 +2,11 @@ version: "2.0"
 test:
   image: daocloud/ci-python:3.4
   services:
-  - mysql
+  - postgres
   env:
-  - MYSQL_INSTANCE_NAME=postgres
-  - MYSQL_USERNAME=postgres
-  - MYSQL_PASSWORD=
+  - POSTGRESQL_INSTANCE_NAME=postgres
+  - POSTGRESQL_USERNAME=postgres
+  - POSTGRESQL_PASSWORD=
   install:
   - sudo apt-get update
   - pip install coverage

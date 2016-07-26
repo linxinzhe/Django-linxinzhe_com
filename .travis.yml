@@ -4,12 +4,7 @@ python:
 services:
   - postgresql
 env:
-  - POSTGRESQL_INSTANCE_NAME=postgres
-  - POSTGRESQL_USERNAME=postgres
-  - POSTGRESQL_PASSWORD=
-  - POSTGRESQL_PORT_3306_TCP_ADDR=localhost
-  - POSTGRESQL_PORT_3306_TCP_PORT=5432
-
+  - POSTGRESQL_INSTANCE_NAME=postgres POSTGRESQL_USERNAME=postgres POSTGRESQL_PASSWORD= POSTGRESQL_PORT_3306_TCP_ADDR=localhost POSTGRESQL_PORT_3306_TCP_PORT=5432
 install: "pip install -r requirements.txt"
 before_script:
   - psql -c 'create database postgres;' -U postgres

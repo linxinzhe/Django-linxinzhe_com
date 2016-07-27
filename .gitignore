@@ -92,3 +92,4 @@ db.sqlite3
 home/__pycache__/
 home/migrations/__pycache__/
 linxinzhe_com/__pycache__/
+node_modules

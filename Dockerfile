@@ -1,6 +1,6 @@
 FROM daocloud.io/nginx
 COPY nginx.conf /etc/nginx/nginx.conf
-RUN apt-get python3
+RUN apt-get install python3
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt
 RUN mkdir /www

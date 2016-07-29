@@ -8,12 +8,13 @@ RUN apt-get -y install postgresql-server-dev-9.4
 ADD requirements.txt /tmp/requirements.txt
 RUN pip3 install -i http://pypi.douban.com/simple/ -r /tmp/requirements.txt
 RUN mkdir -p /etc/nginx/sites-available/
-COPY nginx.conf /etc/nginx/sites-available/default
+COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir /www
 WORKDIR /www
 COPY . /www
 COPY docker-entrypoint.sh docker-entrypoint.sh
 RUN chmod +x docker-entrypoint.sh
 EXPOSE 8000
+EXPOSE 80
 
 CMD /www/docker-entrypoint.sh

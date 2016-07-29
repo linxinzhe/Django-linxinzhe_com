@@ -1,12 +1,14 @@
-FROM daocloud.io/ubuntu:14.04
-RUN sed -i 's/http:\/\/archive.ubuntu.com\/ubuntu\//http:\/\/mirrors.163.com\/ubuntu\//g' /etc/apt/sources.list
+FROM daocloud.io/nginx
 RUN apt-get update
-RUN apt-get -y install nginx
-COPY nginx.conf /etc/nginx/nginx.conf
 RUN apt-get -y install postgresql
+RUN apt-get -y install python3
 RUN apt-get -y install python3-pip
+RUN apt-get -y install libpq-dev
+RUN apt-get -y install postgresql-server-dev-9.4
 ADD requirements.txt /tmp/requirements.txt
-RUN pip3 install -r /tmp/requirements.txt
+RUN pip3 install -i http://pypi.douban.com/simple/ -r /tmp/requirements.txt
+RUN mkdir -p /etc/nginx/sites-available/
+COPY nginx.conf /etc/nginx/sites-available/default
 RUN mkdir /www
 WORKDIR /www
 COPY . /www

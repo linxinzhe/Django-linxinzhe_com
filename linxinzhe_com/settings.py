@@ -78,8 +78,8 @@ if ONLINE:
     name = os.getenv('POSTGRESQL_INSTANCE_NAME')
     user = os.getenv('POSTGRESQL_USERNAME')
     password = os.getenv('POSTGRESQL_PASSWORD')
-    host = os.getenv('POSTGRESQL_PORT_3306_TCP_ADDR')
-    port = os.getenv('POSTGRESQL_PORT_3306_TCP_PORT')
+    host = os.getenv('POSTGRESQL_PORT_5432_TCP_ADDR')
+    port = os.getenv('POSTGRESQL_PORT_5432_TCP_PORT')
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',

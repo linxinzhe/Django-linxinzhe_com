@@ -1,15 +1,19 @@
 web:
   build: .
   ports:
-    - "8000:8000"
+    - "8080:80"
+  environment:
+    - POSTGRESQL_INSTANCE_NAME=postgres
+    - POSTGRESQL_USERNAME=postgres
+    - POSTGRESQL_PASSWORD=
   links:
-    - postgres:postgres
+    - postgres:postgresql
 
 postgres:
   image: daocloud.io/postgres:latest
   environment:
     - POSTGRESQL_INSTANCE_NAME=postgres
-    - POSTGRESQL_USERNAME=postgres
+    - POSTGRESQL_USER=postgres
     - POSTGRESQL_PASSWORD=
   ports:
     - "5432:5432"

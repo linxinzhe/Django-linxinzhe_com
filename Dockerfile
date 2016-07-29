@@ -14,7 +14,6 @@ WORKDIR /www
 COPY . /www
 COPY docker-entrypoint.sh docker-entrypoint.sh
 RUN chmod +x docker-entrypoint.sh
-EXPOSE 8000
 EXPOSE 80
 
 CMD /www/docker-entrypoint.sh

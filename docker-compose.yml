@@ -17,4 +17,4 @@ services:
     depends_on:
       - postgres  # won't work if postgres set up slowly so better your web sleep for a while
     volumes:
-      - .:/www # be sure to let entrypoint.sh executable
+      - .:/www # for purpose of debug without rebuild image, be sure to let entrypoint.sh executable in your computer

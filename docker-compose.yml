@@ -10,9 +10,11 @@ services:
       - "8080:80"
     environment:
       - POSTGRESQL_INSTANCE_NAME=postgres
-      - POSTGRESQL_USERNAME=postgres
-      - POSTGRESQL_PASSWORD=
-      - POSTGRESQL_PORT_5432_TCP_ADDR=postgres
+      - POSTGRESQL_USERNAME=postgres    # suit the username in your db service env, defualt: postgres
+      - POSTGRESQL_PASSWORD= # suit the password in your db service env, defualt: _ (blank)
+      - POSTGRESQL_PORT_5432_TCP_ADDR=postgres   # your db service name is the linked db container tcp address
       - POSTGRESQL_PORT_5432_TCP_PORT=5432
     depends_on:
-      - postgres
+      - postgres  # won't work if postgres set up slowly so better your web sleep for a while
+    volumes:
+      - .:/www # be sure to let entrypoint.sh executable

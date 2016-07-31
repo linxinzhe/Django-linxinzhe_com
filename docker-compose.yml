@@ -1,7 +1,7 @@
 version: '2'
 services:
   postgres:
-    image: postgres
+    image: daocloud.io/postgres
     ports:
       - "5432:5432"
   web:

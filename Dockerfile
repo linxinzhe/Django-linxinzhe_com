@@ -1,6 +1,5 @@
 FROM daocloud.io/nginx
 RUN apt-get update
-RUN apt-get -y install postgresql-9.4
 RUN apt-get -y install postgresql-server-dev-9.4
 RUN apt-get -y install python3
 RUN apt-get -y install python3-pip

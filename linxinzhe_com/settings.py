@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
-ONLINE = True
+ONLINE = False
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -140,3 +140,42 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     STATIC_PATH,
 )
+
+# log config
+LOG_DIR = os.path.join(BASE_DIR, 'log')
+if not os.path.exists(LOG_DIR):
+    os.mkdir(LOG_DIR)
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s - MODULE:%(module)s - %(levelname)s - THREAD:%(thread)d - MESSAGE:%(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, "log"),
+            "when": "M",
+            "interval": 1,
+            'formatter': 'verbose'
+        },
+        "console": {
+            "class": "logging.StreamHandler",
+            'formatter': 'simple'
+        }
+    },
+    'loggers': {
+        "django": {
+            'handlers': ['console', 'file'],
+            'propagate': True,
+        }
+    },
+    "root": {
+        "level": os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+    }
+}

@@ -13,5 +13,6 @@ COPY . /www
 COPY docker-entrypoint.sh docker-entrypoint.sh
 RUN chmod +x docker-entrypoint.sh
 EXPOSE 80
+VOLUME /www/log
 
 CMD /www/docker-entrypoint.sh

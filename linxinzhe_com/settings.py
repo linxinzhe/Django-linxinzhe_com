@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
-ONLINE = False
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -74,33 +72,21 @@ WSGI_APPLICATION = 'linxinzhe_com.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-if ONLINE:
-    name = os.getenv('POSTGRESQL_INSTANCE_NAME')
-    user = os.getenv('POSTGRESQL_USERNAME')
-    password = os.getenv('POSTGRESQL_PASSWORD')
-    host = os.getenv('POSTGRESQL_PORT_5432_TCP_ADDR')
-    port = os.getenv('POSTGRESQL_PORT_5432_TCP_PORT')
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': name,
-            'USER': user,
-            'PASSWORD': password,
-            'HOST': host,
-            'PORT': port,
-        }
+name = os.getenv('POSTGRESQL_INSTANCE_NAME')
+user = os.getenv('POSTGRESQL_USERNAME')
+password = os.getenv('POSTGRESQL_PASSWORD')
+host = os.getenv('POSTGRESQL_PORT_5432_TCP_ADDR')
+port = os.getenv('POSTGRESQL_PORT_5432_TCP_PORT')
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': name,
+        'USER': user,
+        'PASSWORD': password,
+        'HOST': host,
+        'PORT': port,
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'postgres',
-            'USER': 'linxinzhe',
-            'PASSWORD': '',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
-        }
-    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -140,7 +126,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     STATIC_PATH,
 )
-
 # log config
 LOG_DIR = os.path.join(BASE_DIR, 'log')
 if not os.path.exists(LOG_DIR):
@@ -156,15 +141,22 @@ LOGGING = {
             'format': '%(levelname)s %(message)s'
         },
     },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
     'handlers': {
         'file': {
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': os.path.join(LOG_DIR, "log"),
-            "when": "M",
+            "when": "midnight",
             "interval": 1,
+            "backupCount": 3,
             'formatter': 'verbose'
         },
         "console": {
+            # 'filters': ['require_debug_true'],
             "class": "logging.StreamHandler",
             'formatter': 'simple'
         }
@@ -173,9 +165,12 @@ LOGGING = {
         "django": {
             'handlers': ['console', 'file'],
             'propagate': True,
-        }
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
+        "home": {
+            'handlers': ['console', "file"],
+            'propagate': True,
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
     },
-    "root": {
-        "level": os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-    }
 }

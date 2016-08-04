@@ -15,6 +15,8 @@ test:
   before_script:
   - pip install -r requirements.txt
   script:
+  - python3 manage.py makemigrations --noinput
+  - python3 manage.py migrate --noinput
   - coverage run --source='.' manage.py test
   - coverage report
 build:

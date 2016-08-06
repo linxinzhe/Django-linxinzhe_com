@@ -35,9 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "home",
-    "rango",
-    "lab",
+    "home.apps.HomeConfig",
+    "rango.apps.RangoConfig",
+    "lab.apps.LabConfig",
 ]
 
 MIDDLEWARE_CLASSES = [

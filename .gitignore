@@ -95,3 +95,4 @@ linxinzhe_com/__pycache__/
 node_modules
 log/
 lab.py
+/venv/

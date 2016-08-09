@@ -1,12 +1,11 @@
-<!DOCTYPE html>
+{% extends 'rango/base.html' %}
 {% load staticfiles %}
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Rango - About</title>
-</head>
-<body>
-This tutorial has been put together by linxinzhe
-<img src="{% static "images/rango2.jpg" %}" alt="Picture of Rango"/>
-</body>
-</html>
+
+{% block title_block %}
+  About
+{% endblock %}
+
+{% block body_block %}
+  This tutorial has been put together by linxinzhe
+  <img src="{% static "images/rango2.jpg" %}" alt="Picture of Rango"/>
+{% endblock %}

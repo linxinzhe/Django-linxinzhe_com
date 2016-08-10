@@ -3,6 +3,7 @@ RUN apt-get update
 RUN apt-get -y install postgresql-server-dev-9.4
 RUN apt-get -y install python3
 RUN apt-get -y install python3-pip
+RUN apt-get -y install libjpeg-dev  #for pillow
 ADD requirements.txt /tmp/requirements.txt
 RUN pip3 install -i http://pypi.douban.com/simple/ -r /tmp/requirements.txt
 RUN mkdir -p /etc/nginx/sites-available/

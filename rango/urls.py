@@ -11,5 +11,7 @@ urlpatterns = [
     url(r'^category/(?P<category_name_slug>[\w\-]+)/$', rango.views.show_category, name='category'),
     url(r'^category/(?P<category_name_slug>[\w\-]+)/add_page/$', rango.views.add_page, name='add_page'),
     url(r'^register/$', rango.views.register, name='register'),
-    url(r'^login/$', rango.views.login, name='login'),
+    url(r'^login/$', rango.views.user_login, name='login'),
+    url(r'^restricted/', rango.views.restricted, name='restricted'),
+    url(r'^logout/$', rango.views.user_logout, name='logout'),
 ]

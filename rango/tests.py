@@ -11,7 +11,7 @@ from rango.populate_rango import populate
 class GeneralTests(TestCase):
     def test_serving_static_files(self):
         # If using static media properly result is not NONE once it finds rango.jpg
-        result = finders.find('images/rango.jpg')
+        result = finders.find('rango/images/rango.jpg')
         self.assertIsNotNone(result)
 
 
@@ -32,7 +32,7 @@ class IndexPageTests(TestCase):
         # Check if is there an image called 'rango.jpg' on the index page
         # Chapter 4
         response = self.client.get(reverse('rango:index'))
-        self.assertIn(b'img src="/static/images/rango.jpg', response.content)
+        self.assertIn(b'img src="/static/rango/images/rango.jpg', response.content)
 
     def test_index_has_title(self):
         # Check to make sure that the title tag has been used
@@ -53,7 +53,7 @@ class AboutPageTests(TestCase):
         # Check if is there an image on the about page
         # Chapter 4
         response = self.client.get(reverse('rango:about'))
-        self.assertIn(b'img src="/static/images/', response.content)
+        self.assertIn(b'img src="/static/rango/images/', response.content)
 
     def test_about_using_template(self):
         # Check the template used to render index page

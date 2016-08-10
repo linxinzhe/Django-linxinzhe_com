@@ -14,6 +14,7 @@ services:
       - POSTGRESQL_PASSWORD= # suit the password in your db service env, defualt: _ (blank)
       - POSTGRESQL_PORT_5432_TCP_ADDR=postgres   # your db service name is the linked db container tcp address
       - POSTGRESQL_PORT_5432_TCP_PORT=5432
+      - SECRET_KEY='v@)ket!glwq*gp=xb!(2^8*f4q5ncq74(oq#^8th13%bl6-_mb'
     depends_on:
       - postgres  # won't work if postgres set up slowly so better your web sleep for a while
     volumes:

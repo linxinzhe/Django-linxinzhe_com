@@ -4,7 +4,7 @@ python:
 services:
   - postgresql
 env:
-  - POSTGRESQL_INSTANCE_NAME=postgres POSTGRESQL_USERNAME=postgres POSTGRESQL_PASSWORD= POSTGRESQL_PORT_3306_TCP_ADDR=localhost POSTGRESQL_PORT_3306_TCP_PORT=5432 SECRET_KEY=v@)ket!glwq*gp=xb!(2^8*f4q5ncq74(oq#^8th13%bl6-_mb
+  - POSTGRESQL_INSTANCE_NAME=postgres POSTGRESQL_USERNAME=postgres POSTGRESQL_PASSWORD= POSTGRESQL_PORT_3306_TCP_ADDR=localhost POSTGRESQL_PORT_3306_TCP_PORT=5432 SECRET_KEY='v@)ket!glwq*gp=xb!(2^8*f4q5ncq74(oq#^8th13%bl6-_mb'
 install:
   - pip install coverage
   - pip install -r requirements.txt

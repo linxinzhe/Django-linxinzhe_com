@@ -12,19 +12,26 @@ from rango.models import Category, Page
 logger = logging.getLogger(__name__)
 
 
-def visitor_cookie_handler(request, response: HttpResponse):
-    visits_cookie = int(request.COOKIES.get("visits", "1"))
-    last_visit_cookie = request.COOKIES.get("last_visit", str(datetime.datetime.now()))
+def get_server_side_cookie(request, cookie, default_val=None):
+    val = request.session.get(cookie)
+    if not val:
+        val = default_val
+    return val
+
+
+def visitor_cookie_handler(request):
+    visits = int(get_server_side_cookie(request, "visits", "1"))
+    last_visit_cookie = get_server_side_cookie(request, "last_visit", str(datetime.datetime.now()))
     last_visit_time = datetime.datetime.strptime(last_visit_cookie[:-7], '%Y-%m-%d %H:%M:%S')
 
     if (datetime.datetime.now() - last_visit_time).days > 0:
-        visits = visits_cookie + 1
-        response.set_cookie("last_visit", str(datetime.datetime.now()))
+        visits = visits + 1
+        request.session["last_visit"] = str(datetime.datetime.now())
     else:
-        visits = visits_cookie
-        response.set_cookie("last_visit", last_visit_cookie)
+        request.session["last_visit"] = last_visit_cookie
 
-    response.set_cookie("visits", visits)
+    request.session["visits"] = visits
+
 
 # Create your views here.
 def index(request):
@@ -33,8 +40,10 @@ def index(request):
     page_list = Page.objects.order_by("-views")[:5]
     context_dict = {'categories': category_list, "pages": page_list}
 
+    visitor_cookie_handler(request)
+    context_dict["visits"] = request.session["visits"]
+
     response = render(request, 'rango/index.html', context=context_dict)
-    visitor_cookie_handler(request, response)
     return response
 
 
@@ -43,7 +52,10 @@ def about(request):
         logger.debug("Test cookie worked")
         print("Test cookie worked")
         request.session.delete_test_cookie()
-    context_dict = {}
+    visits = int(request.session.get("visits", 0))
+    visits += 1
+    request.session["visits"] = visits
+    context_dict = {"visits": visits}
     return render(request, 'rango/about.html', context=context_dict)
 
 

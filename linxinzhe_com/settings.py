@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', "v@)ket!glwq*gp=xb!(2^8*f4q5ncq74(oq#^8th13%bl6-_mb")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -27,16 +27,17 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = [  # templates search will be in sequence
+    "home.apps.HomeConfig",
+    "rango.apps.RangoConfig",
+    "lab.apps.LabConfig",
+    'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "home.apps.HomeConfig",
-    "rango.apps.RangoConfig",
-    "lab.apps.LabConfig",
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -175,4 +176,10 @@ LOGGING = {
     },
 }
 
-LOGIN_URL = '/rango/login/'
+# Setting: Django-Registration-Redux
+REGISTRATION_OPEN = True
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
+LOGIN_REDIRECT_URL = '/rango/'
+LOGIN_URL = '/accounts/login/'
+# setting: Django-Registration-Redux

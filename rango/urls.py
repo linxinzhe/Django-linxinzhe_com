@@ -14,5 +14,6 @@ urlpatterns = [
     # url(r'^login/$', rango.views.user_login, name='login'),
     # url(r'^logout/$', rango.views.user_logout, name='logout'),
     url(r'^restricted/', rango.views.restricted, name='restricted'),
+    url(r'search/$', rango.views.search, name='search'),
     url(r'^goto/', rango.views.track_url, name='goto'),
 ]

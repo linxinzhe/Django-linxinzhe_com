@@ -61,6 +61,13 @@ def about(request):
 
 def show_category(request, category_name_slug):
     context_dict = {}
+    result_list = []
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+        if query:  # Run our Bing function to get the results list!
+            result_list = Page.objects.filter(title__icontains=query)
+    context_dict['result_list'] = result_list
+
     try:
         category = Category.objects.get(slug=category_name_slug)
         pages = Page.objects.filter(category=category)
@@ -183,3 +190,12 @@ def track_url(request):
                 page.save()
                 return HttpResponseRedirect(page.url)
     return HttpResponseRedirect(reverse("rango:index"))
+
+
+def search(request):
+    result_list = []
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+        if query:  # Run our Bing function to get the results list!
+            pass  # result_list = run_query(query)
+    return render(request, 'rango/search.html', {'result_list': result_list})

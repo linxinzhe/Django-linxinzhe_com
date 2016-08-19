@@ -20,4 +20,29 @@
   {% else %}
     <strong>The specified category does not exist!</strong>
   {% endif %}
+
+  {% if user.is_authenticated %}
+    <form class="form-inline" id="user_form"
+          method="post" action="{% url 'rango:category' category.slug %}"> {% csrf_token %}
+      <div class="input-group">
+        <input class="form-control" type="text" size="50" name="query" value="" id="query"/>
+      </div>
+      <button class="btn btn-primary" type="submit" name="submit"
+              value="Search">Search
+      </button>
+    </form>
+    <div>
+      {% if result_list %}
+        <h3>Results</h3>
+        <!-- Display search results in an ordered list -->
+        <div class="list-group">
+          {% for result in result_list %}
+            <div class="list-group-item">
+              <h4 class="list-group-item-heading">
+                <a href="{{ result.url }}">{{ result.title }}</a></h4>
+            </div> {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'rango/base_bootstrap.html' %}
+{% load staticfiles %}
+{% load bootstrap_toolkit %}
+{% block title_block %}
+  Profile
+{% endblock %}
+{% block body_block %}
+  <h1>Set profile</h1>
+  {% if user.is_authenticated %}
+    <h3>Rango says: <strong>set your profile here!</strong></h3>
+    <form id="user_form" method="post" action="{% url "rango:profile" %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="hidden" name="user_id" value="{{ user.id }}"/>
+      <input type="text" name="website" value="{{ user_profile.website }}"/>
+      <input type="file" name="picture"/>
+      <button class="btn btn-primary" type="submit" name="submit">Update</button>
+    </form>
+  {% else %}
+    <h3>Please login!</h3>
+  {% endif %}
+{% endblock %}

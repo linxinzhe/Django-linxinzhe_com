@@ -45,21 +45,17 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li><a class="nav-item nav-link" href="{% url "rango:index" %}">Home</a></li>
-        <li><a class="nav-item nav-link" href="{% url "rango:about" %}">About</a></li>
         {% if user.is_authenticated %}
-          <li><a class="nav-item nav-link" href="{% url "rango:restricted" %}">Restricted</a></li>
           <li><a class="nav-item nav-link" href="{% url "rango:add_category" %}">Add New Category</a></li>
           <li><a class="nav-item nav-link" href="{% url "auth_password_change" %}">Change Password</a></li>
+          <li><a class="nav-item nav-link" href="{% url "rango:profile" %}?user_id={{ user.id }}">Profile</a></li>
           <li><a class="nav-item nav-link" href="{% url "auth_logout" %}?next=/rango/">Logout</a></li>
         {% else %}
           <li><a class="nav-item nav-link" href="{% url "registration_register" %}">Register</a></li>
           <li><a class="nav-item nav-link" href="{% url "auth_login" %}">Login</a></li>
         {% endif %}
+        <li><a class="nav-item nav-link" href="{% url "rango:about" %}">About</a></li>
       </ul>
-      {#          <form class="navbar-form navbar-right">#}
-      {#            <input type="text" class="form-control" placeholder="Search...">#}
-      {#          </form>#}
     </div>
   </div>
 </nav>

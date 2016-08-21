@@ -3,11 +3,11 @@ import logging
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
-from django.shortcuts import render, HttpResponseRedirect, reverse, HttpResponse
+from django.shortcuts import render, HttpResponseRedirect, reverse
 from registration.backends.simple.views import RegistrationView
 
-from rango.forms import CategoryForm, PageForm
-from rango.models import Category, Page
+from rango.forms import CategoryForm, PageForm, UserProfileForm
+from rango.models import Category, Page, User
 
 logger = logging.getLogger(__name__)
 
@@ -59,20 +59,23 @@ def about(request):
     return render(request, 'rango/about.html', context=context_dict)
 
 
-def show_category(request, category_name_slug):
+def category(request, category_name_slug):
     context_dict = {}
-    result_list = []
+    context_dict["result_list"] = None
+    context_dict["query"] = None
     if request.method == 'POST':
         query = request.POST['query'].strip()
-        if query:  # Run our Bing function to get the results list!
+        if query:
             result_list = Page.objects.filter(title__icontains=query)
-    context_dict['result_list'] = result_list
-
+            context_dict['result_list'] = result_list
+            context_dict['query'] = query
     try:
         category = Category.objects.get(slug=category_name_slug)
-        pages = Page.objects.filter(category=category)
+        pages = Page.objects.filter(category=category).order_by("-views")
         context_dict["pages"] = pages
         context_dict["category"] = category
+        if not context_dict["query"]:
+            context_dict["query"] = category.name
     except Category.DoesNotExist:
         context_dict["pages"] = None
         context_dict["category"] = None
@@ -161,15 +164,8 @@ def add_page(request, category_name_slug):
 #             return HttpResponse("Invalid login details supplied.")
 #     else:
 #         return render(request, "rango/login.html", {})
-#
-#
-@login_required
-def restricted(request):
-    return HttpResponse("Since you're logged in, you can see this text!")
 
 
-#
-#
 # @login_required
 # def user_logout(request):
 #     logout(request)
@@ -177,19 +173,24 @@ def restricted(request):
 
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, user=None):
-        return "/rango/"
+        return reverse("rango:add_profile")
 
 
 def track_url(request):
+    url = reverse("rango:index")
     if request.method == "GET":
         if "page_id" in request.GET:
             page_id = request.GET["page_id"]
-            page = Page.objects.get(pk=page_id)
-            if page:
-                page.views = F("views") + 1
-                page.save()
-                return HttpResponseRedirect(page.url)
-    return HttpResponseRedirect(reverse("rango:index"))
+            try:
+                page = Page.objects.get(pk=page_id)
+                if page:
+                    page.views = F("views") + 1
+                    page.save()
+                    url = page.url
+                    return HttpResponseRedirect(url)
+            except Page.DoesNotExist:
+                pass
+    return HttpResponseRedirect(url)
 
 
 def search(request):
@@ -199,3 +200,49 @@ def search(request):
         if query:  # Run our Bing function to get the results list!
             pass  # result_list = run_query(query)
     return render(request, 'rango/search.html', {'result_list': result_list})
+
+
+@login_required
+def register_profile(request):
+    form = UserProfileForm()
+    if "user_id" in request.POST:
+        user_id = request.POST["user_id"]
+        user = User.objects.get(pk=user_id)
+        user_profile = user.userprofile
+        if user_profile:
+            return HttpResponseRedirect(reverse("rango:index"))
+        else:
+            if request.method == "POST":
+                profile_form = UserProfileForm(data=request.POST)
+                if profile_form.is_valid():
+                    profile = profile_form.save(commit=False)
+                    profile.user = user
+                    if "picture" in request.FILES:
+                        profile.picture = request.FILES["picture"]
+                    profile.save()
+                    return HttpResponseRedirect(reverse("rango:index"))
+    return render(request, "registration/profile_registration.html", {"form": form})
+
+
+@login_required
+def profile(request):
+    form = UserProfileForm()
+    if request.method == "GET":
+        if "user_id" in request.GET:
+            user_id = request.GET["user_id"]
+            user = User.objects.get(pk=user_id)
+            user_profile = user.userprofile
+            if user_profile:
+                return render(request, "rango/profile.html", {"user_profile": user_profile})
+
+    if request.method == "POST":
+        if "user_id" in request.POST:
+            user_id = request.POST["user_id"]
+            user = User.objects.get(pk=user_id)
+            user_profile = user.userprofile
+            if user_profile:
+                user_profile.website = request.POST["website"]
+                if "picture" in request.FILES:
+                    user_profile.picture = request.FILES["picture"]
+                user_profile.save()
+                return HttpResponseRedirect(reverse("rango:index"))

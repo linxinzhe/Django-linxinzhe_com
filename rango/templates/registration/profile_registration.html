@@ -1,0 +1,20 @@
+{% extends 'rango/base_bootstrap.html' %}
+{% load staticfiles %}
+{% load bootstrap_toolkit %}
+{% block title_block %}
+  Profile Registeration
+{% endblock %}
+{% block body_block %}
+  <h1>Add profile</h1>
+  {% if user.is_authenticated %}
+    <h3>Rango says: <strong>set your profile here!</strong></h3>
+    <form id="user_form" method="post" action="{% url "rango:add_profile" %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form|as_bootstrap }}
+      <input type="hidden" name="user_id" value="{{ user.id }}"/>
+      <button class="btn btn-primary" type="submit" name="submit">Add Profile</button>
+    </form>
+  {% else %}
+    <h3>Please login!</h3>
+  {% endif %}
+{% endblock %}

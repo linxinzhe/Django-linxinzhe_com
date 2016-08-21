@@ -10,7 +10,14 @@
     {% if pages %}
       <ul>
         {% for page in pages %}
-          <li><a href="{% url "rango:goto" %}?page_id={{ page.id }}">{{ page.title }}</a></li>
+          <li>
+            <a href="{% url "rango:goto" %}?page_id={{ page.id }}">{{ page.title }}</a>
+            {% if page.views > 1 %}
+              ({{ page.views }} views)
+            {% elif page.views == 1 %}
+              ({{ page.views }} view)
+            {% endif %}
+          </li>
         {% endfor %}
       </ul>
     {% else %}
@@ -22,14 +29,12 @@
   {% endif %}
 
   {% if user.is_authenticated %}
-    <form class="form-inline" id="user_form"
-          method="post" action="{% url 'rango:category' category.slug %}"> {% csrf_token %}
-      <div class="input-group">
-        <input class="form-control" type="text" size="50" name="query" value="" id="query"/>
-      </div>
-      <button class="btn btn-primary" type="submit" name="submit"
-              value="Search">Search
-      </button>
+    <form class="form-inline" id="user_form" method="post" action="{% url 'rango:category' category.slug %}">
+      {% csrf_token %}
+      <!-- Display the search form elements here -->
+      <input class="form-control" type="text" size="50"
+             name="query" value="{{ query }}" id="query"/>
+      <input class="btn btn-primary" type="submit" name="submit" value="Search"/>
     </form>
     <div>
       {% if result_list %}

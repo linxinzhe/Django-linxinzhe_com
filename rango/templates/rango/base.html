@@ -28,7 +28,6 @@
 <div>
   <ul>
     {% if user.is_authenticated %}
-      <li><a href="{% url "rango:restricted" %}">Restricted</a></li>
       <li><a href="{% url "auth_logout" %}?next=/rango/">Logout</a></li>
       <li><a href="{% url "auth_password_change" %}">Change Password</a></li>
     {% else %}

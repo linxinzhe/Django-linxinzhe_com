@@ -7,8 +7,17 @@
 {% block body_block %}
   {% if category %}
     <h1>{{ category.name }}</h1>
+    <p>
+      <strong id="like_count">{{ category.likes }}</strong> people like this category
+      {% if user.is_authenticated %}
+        <button id="likes" data-catid="{{ category.id }}" class="btn btn-primary" type="button">
+          <span class="glyphicon glyphicon-thumbs-up"></span>
+          Like
+        </button>
+      {% endif %}
+    </p>
     {% if pages %}
-      <ul>
+      <ul id="pages">
         {% for page in pages %}
           <li>
             <a href="{% url "rango:goto" %}?page_id={{ page.id }}">{{ page.title }}</a>
@@ -44,7 +53,8 @@
           {% for result in result_list %}
             <div class="list-group-item">
               <h4 class="list-group-item-heading">
-                <a href="{{ result.url }}">{{ result.title }}</a></h4>
+                <a href="{{ result.url }}" data-pageid="{{ result.id }}">{{ result.title }}</a>
+              </h4>
             </div> {% endfor %}
         </div>
       {% endif %}

@@ -17,4 +17,6 @@ urlpatterns = [
     url(r'^goto/$', rango.views.track_url, name='goto'),
     url(r'^add_profile/$', rango.views.register_profile, name='add_profile'),
     url(r'^profile/$', rango.views.profile, name='profile'),
+    url(r'^like_category/$', rango.views.like_category, name='like_category'),
+    url(r'^suggest_category/$', rango.views.suggest_category, name='suggest_category'),
 ]

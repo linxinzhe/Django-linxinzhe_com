@@ -66,6 +66,15 @@
       {% block sidebar_block %}
         {% get_category_list category %}
       {% endblock %}
+      <ul class="nav nav-list">
+        <li class="nav-header">Find a Category</li>
+        <form>
+          <label></label>
+          <li><input class="search-query span10" type="text" name="suggestion" value="" id="suggestion"/>
+          </li>
+        </form>
+      </ul>
+      <div id="cats"></div>
     </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
       {% block body_block %}{% endblock %}
@@ -82,5 +91,6 @@
 <script src="http://v3.bootcss.com/assets/js/vendor/holder.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="http://v3.bootcss.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+<script src="{% static "rango/js/rango-ajax.js" %}"></script>
 </body>
 </html>

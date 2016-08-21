@@ -3,7 +3,7 @@ import logging
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
-from django.shortcuts import render, HttpResponseRedirect, reverse
+from django.shortcuts import render, HttpResponseRedirect, reverse, get_object_or_404, HttpResponse
 from registration.backends.simple.views import RegistrationView
 
 from rango.forms import CategoryForm, PageForm, UserProfileForm
@@ -246,3 +246,38 @@ def profile(request):
                     user_profile.picture = request.FILES["picture"]
                 user_profile.save()
                 return HttpResponseRedirect(reverse("rango:index"))
+
+
+@login_required
+def like_category(request):
+    likes = 0
+    if request.method == "GET":
+        if "category_id" in request.GET:
+            category_id = request.GET["category_id"]
+            category_obj = get_object_or_404(Category, pk=category_id)
+            category_obj.likes = F("likes") + 1
+            category_obj.save()
+            category_obj = get_object_or_404(Category, pk=category_id)
+            likes = category_obj.likes
+    return HttpResponse(likes)
+
+
+def get_category_list(max_results=0, starts_with=""):
+    cat_list = []
+    if starts_with:
+        cat_list = Category.objects.filter(name__istartswith=starts_with)
+
+    if max_results > 0:
+        if len(cat_list) > max_results:
+            cat_list = cat_list[:max_results]
+    return cat_list
+
+
+def suggest_category(request):
+    cat_list = []
+    starts_with = ""
+    if request.method == "GET":
+        starts_with = request.GET["suggestion"]
+    cat_list = get_category_list(8, starts_with)
+
+    return render(request, "rango/category_list.html", {"cat_list": cat_list})

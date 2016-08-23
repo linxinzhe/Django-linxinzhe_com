@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Learning crawler</title>
+  <script src="{% static "vue/js/vue.js" %}"></script>
+</head>
+<body>
+<div id="app">
+  <p>[[ message ]]</p>
+  <input v-model="message">
+</div>
+<script>
+  Vue.config.delimiters = ['[[', ']]'];
+  new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello Vue.js!'
+    }
+  })
+</script>
+</body>
+</html>

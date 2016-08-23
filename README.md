@@ -3,6 +3,7 @@ This is linxinzhe's sites
 
 Project Document Tree:  
 
+\- crawler (for crawl gif)  
 \- home (main sites)  
 \- lab (for experimental features)  
 \- linxinzhe_com (global settings)    
@@ -10,6 +11,7 @@ Project Document Tree:
 \- media (store upload files)  
 \- rango (for learning django with this book [Tango with Django](http://www.tangowithdjango.com/))  
 \- static (nginx as static files sever)  
+\- vue (for learning vuejs)  
 \- .travis.yml & daocloud.yml (continuous integration)  
 \- docker-compose.yml (for develop in the same environment locally)  
 \- Dockerfile, docker-entrypoint.sh, nginx (for deploy in docker)

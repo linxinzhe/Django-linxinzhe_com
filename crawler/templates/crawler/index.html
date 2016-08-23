@@ -5,11 +5,13 @@
   <meta charset="UTF-8">
   <title>Learning crawler</title>
   <script src="{% static "vue/js/vue.js" %}"></script>
+  <script src="{% static "vue/js/jquery.js" %}"></script>
 </head>
 <body>
 <div id="app">
   <p>[[ message ]]</p>
   <input v-model="message">
+  <button id="crawler">crawler</button>
 </div>
 <script>
   Vue.config.delimiters = ['[[', ']]'];
@@ -18,7 +20,16 @@
     data: {
       message: 'Hello Vue.js!'
     }
-  })
+  });
+  $(document).ready(function () {
+    $("#crawler").click(function () {
+      $.get("{% url "crawler:crawl_gif" %}", function (data, status) {
+        alert("Data: " + data + "\nStatus: " + status);
+      });
+    })
+  });
+
+
 </script>
 </body>
 </html>

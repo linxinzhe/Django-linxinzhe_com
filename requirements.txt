@@ -5,3 +5,5 @@ pytz==2016.6.1
 Pillow==3.3.0
 django-registration-redux==1.4
 django-bootstrap-toolkit==2.15.0
+requests==2.11.1
+beautifulsoup4==4.5.1

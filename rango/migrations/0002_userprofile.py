@@ -21,7 +21,8 @@ class Migration(migrations.Migration):
                 ('website', models.URLField(blank=True)),
                 ('picture', models.ImageField(blank=True, upload_to='profile_images')),
                 (
-                'user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                    'user',
+                    models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

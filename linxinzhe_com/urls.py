@@ -18,12 +18,16 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 import home.urls
+import lab.urls
 import rango.urls
+import vue.urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(home.urls)),
     url(r'^rango/', include(rango.urls)),
+    url(r'^lab/', include(lab.urls)),
+    url(r'^vue/', include(vue.urls)),
     url(r'^accounts/', include(registration.backends.simple.urls)),
     url(r'^accounts/register/$', rango.views.MyRegistrationView.as_view(), name="registration_register"),
 ]

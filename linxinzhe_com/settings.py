@@ -31,6 +31,7 @@ INSTALLED_APPS = [  # templates search will be in sequence
     "home.apps.HomeConfig",
     "rango.apps.RangoConfig",
     "lab.apps.LabConfig",
+    "vue.apps.VueConfig",
     'registration',
     "bootstrap_toolkit",
     'django.contrib.admin',

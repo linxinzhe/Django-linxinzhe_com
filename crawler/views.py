@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from django.core import serializers
 from django.shortcuts import render, HttpResponse
 
 from crawler.models import Gif
@@ -21,5 +22,5 @@ def crawl_gif(request):
         alt = img["alt"]
         gif = Gif.objects.get_or_create(name=alt, url=src)
         gif[0].save()
-
-    return HttpResponse("done")
+    json = serializers.serialize("json", Gif.objects.all())
+    return HttpResponse(json)

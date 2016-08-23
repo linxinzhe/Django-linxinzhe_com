@@ -10,26 +10,36 @@
 <body>
 <div id="app">
   <p>[[ message ]]</p>
-  <input v-model="message">
-  <button id="crawler">crawler</button>
+  <input v-model="message"><br/>
+  <button v-on:click="crawl">crawler</button>
+  <ul>
+    <li v-for="gif in gifs">
+      <img src="[[gif.fields.url]]" alt="[[ gif.fields.name ]]"/>
+    </li>
+  </ul>
 </div>
 <script>
   Vue.config.delimiters = ['[[', ']]'];
-  new Vue({
+  var app = new Vue({
     el: '#app',
     data: {
-      message: 'Hello Vue.js!'
+      message: 'Hello Vue.js!',
+      gifs: [{
+        model: "crawler.gif",
+        pk: 1,
+        fields: {url: "http://qq.yh31.com/tp/zjbq/201608191130364348.gif", name: "吃饭还是吃我呢"}
+      }]
+    },
+    methods: {
+      crawl: function () {
+        var that = this;
+        $.get("{% url "crawler:crawl_gif" %}", function (data, status) {
+          that.gifs = JSON.parse(data);
+          console.log(that.gifs);
+        });
+      }
     }
   });
-  $(document).ready(function () {
-    $("#crawler").click(function () {
-      $.get("{% url "crawler:crawl_gif" %}", function (data, status) {
-        alert("Data: " + data + "\nStatus: " + status);
-      });
-    })
-  });
-
-
 </script>
 </body>
 </html>

@@ -22,5 +22,5 @@ def crawl_gif(request):
         alt = img["alt"]
         gif = Gif.objects.get_or_create(name=alt, url=src)
         gif[0].save()
-    json = serializers.serialize("json", Gif.objects.all())
+    json = serializers.serialize("json", Gif.objects.all()[:5])
     return HttpResponse(json)

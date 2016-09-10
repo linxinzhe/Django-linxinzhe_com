@@ -5,11 +5,23 @@
   <meta charset="UTF-8">
   <title>Learning Vue</title>
   <script src="https://npmcdn.com/vue/dist/vue.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.0.min.js"></script>
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 <body>
-<div id="app">
+<nav class="navbar" style="background-color: lightgrey">
+  <div id="navbar" class="navbar-collapse collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#">Title1</a></li>
+      <li><a href="#">Title2</a></li>
+      <li><a href="#">Title3</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="container" id="app">
   <p>[[ message ]]</p>
-  <input v-model="message">
+  <input class="input-lg" v-model="message">
+  <button class="btn btn-primary" @click="clickme">click me</button>
 </div>
 <script>
   Vue.config.delimiters = ['[[', ']]'];
@@ -17,6 +29,11 @@
     el: '#app',
     data: {
       message: 'Hello Vue.js!'
+    },
+    methods: {
+      clickme: function () {
+        this.message = "click you";
+      }
     }
   })
 </script>
